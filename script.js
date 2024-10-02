@@ -8,6 +8,8 @@ const finalMessageRevealWord = document.getElementById(
   "final-message-reveal-word"
 );
 const figureParts = document.querySelectorAll(".figure-part");
+const hintButton = document.getElementById("hint-button");
+const hintElement = document.getElementById("hint");
 
 const words = [
   "application",
@@ -33,6 +35,35 @@ const words = [
   "type",
   "node",
 ];
+const hints = {
+  application: "A software designed to perform specific tasks.",
+  programming: "The process of creating instructions for computers.",
+  interface: "A shared boundary where two systems communicate.",
+  wizard:
+    "A magical being in fantasy stories, also used in software to guide users.",
+  element: "A single part of a larger structure, often in HTML.",
+  prototype: "A preliminary model of something, often used in programming.",
+  callback:
+    "A function passed into another function as an argument in JavaScript.",
+  undefined: "A variable that has been declared but not yet assigned a value.",
+  arguments: "Values passed to a function when it is called.",
+  settings: "Configurations that define behavior or appearance.",
+  selector: "A way to target HTML elements in CSS.",
+  container: "An element that groups other elements in web development.",
+  instance: "A single occurrence of an object in programming.",
+  response: "The data sent back from a server after a request.",
+  console: "A tool used to log information in JavaScript.",
+  constructor: "A special method for creating and initializing objects in OOP.",
+  token: "A piece of data used for authentication or authorization.",
+  function: "A block of code designed to perform a particular task.",
+  return:
+    "A statement that ends function execution and specifies a value to be returned.",
+  length:
+    "A property that returns the number of elements in an array or characters in a string.",
+  type: "The kind of data (e.g., string, number, boolean) in JavaScript.",
+  node: "An individual part of a data structure like a tree or DOM.",
+};
+
 let selectedWord = words[Math.floor(Math.random() * words.length)];
 
 let playable = true;
@@ -53,6 +84,7 @@ function displayWord() {
       )
       .join("")} 
     `; // to string
+
   const innerWord = wordElement.innerText.replace(/\n/g, "");
   if (innerWord === selectedWord) {
     finalMessage.innerText = "Congratulations! You won! 😃";
@@ -81,6 +113,7 @@ function updateWrongLettersElement() {
   }
 }
 
+// Show a notification
 function showNotification() {
   notification.classList.add("show");
   setTimeout(() => {
@@ -110,7 +143,11 @@ window.addEventListener("keypress", (e) => {
     }
   }
 });
+function displayHint() {
+  hintElement.innerText = hints[selectedWord];
+}
 
+// Restart the game
 playAgainButton.addEventListener("click", () => {
   playable = true;
   correctLetters.splice(0);
@@ -119,7 +156,9 @@ playAgainButton.addEventListener("click", () => {
   displayWord();
   updateWrongLettersElement();
   popup.style.display = "none";
+  displayHint();
 });
 
-// Init
+// Initial game
 displayWord();
+displayHint();
